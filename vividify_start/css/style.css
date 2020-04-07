@@ -1,0 +1,259 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:100);
+html, body {
+  height: auto;
+  background: #122121;
+  background-image: url("../img/background.jpg");
+  overflow:hidden;
+}
+#imgr{
+	float:right;
+}
+h1{
+	margin-top:-190px;
+	color:#fff;
+	font-size:40px;
+}
+h2{
+	margin-top:-25px;
+color:#fff;
+	font-size:40px;
+}
+#left{
+	 border-radius: 0px 100px 0px;
+vertical-align:top right;
+	color:#666;
+
+	font-size:7.5em;
+	text-align:top right;
+	width:350px;
+	height:200px;
+	float:left;
+	background-color:#66ff66;
+	border-right:2px;
+	border-color:#fff;
+	transition:1s;
+		animation:open 1s;
+	animation-delay:10s;
+	position:relative;
+}
+#left:hover{
+	position:absolute;
+	  box-shadow: 
+	 0 0 0 3px hsl(120, 100%, 50%),
+    0 0 0 6px  hsl(120, 100%, 75%),
+    0 0 0 9px hsl(120, 100%, 25%),
+    0 0 0 12px hsl(120, 60%, 70%);
+}
+#right{
+	 border-radius: 0px 100px 0px;
+	top:100px;
+		font-size:7em;
+	color:#38eeff;
+		position:relative;
+	text-align:right;
+	width:350px;
+	height:200px;
+	float:right;
+	background-color:#666;
+	border-left:2px;
+	border-color:#fff;
+	text-align:bottom right;
+	transition:1s;
+	}
+	#right:hover{
+		  box-shadow: 
+	 0 0 0 3px hsl(174, 72%, 56%),
+    0 0 0 6px  hsl(195, 100%, 50%),
+    0 0 0 9px  hsl(197, 71%, 73%),
+    0 0 0 12px hsl(120, 60%, 70%);
+	}
+
+#choice{
+	margin-left:-200px;
+	width:700px;
+	height:200px;
+	margin-top:30%;
+	background-color:;
+	animation:l 5s ease;
+	}
+#p{
+	margin-top:-600px;
+	width:100px;
+	height:100px;
+	background-color:#fff;
+	background-image: url("../img/p.png");
+}
+.anview-logo {
+  font-family: 'lato', sans-serif;
+  width: 500px;
+  height: 60px;
+  left: 50%;
+  top: 30%;
+  font-weight: bold;
+  margin-top: -30px;
+  margin-left: -128px;
+  position: absolute;
+  animation: logo 5s ease;
+}
+@keyframes l {
+  from {opacity:0;
+    transform: translateY(700px) scale(1);
+  }
+  40% {
+    transform: translateY(100px) scale(1.3);
+  }
+  70% {opacity:0;
+    transform: translateY(50px) scale(1);
+  }
+  73%
+  {
+	  opacity:0.5;
+  }
+  77%
+  {
+	  opacity:1;
+	margin-top:0%;
+    transform: translateY(0px) scale(1);  
+  }
+}
+@keyframes logo {
+  from {
+    transform: translateY(700px) scale(1);
+  }
+  40% {
+    transform: translateY(70px) scale(1.3);
+  }
+  70% {
+
+    transform: translateY(70px) scale(1.3);
+  }
+}
+.anview-logo span {
+  position: absolute;
+  font-size: 64px;
+  color: #fff;
+  line-height: 60px;
+  font-weight:bold;
+}
+.anview-logo span:nth-child(1) {
+  font-size: 32px;
+  width: inherit;
+  text-align: center;
+  margin-top: -55px;
+  color: rgba(255, 255, 255, 0.6);
+  animation: weare 5s ease;
+}
+@keyframes weare {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  40% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+.anview-logo span:nth-child(2) {
+  font-size: 28px;
+  width: inherit;
+  text-align: center;
+  opacity: 0;
+  margin-top: -55px;
+  color: rgba(255, 255, 255, 0.6);
+  animation: weprovide 5s ease;
+}
+@keyframes weprovide {
+  from {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+  }
+}
+.anview-logo span:nth-child(3) {
+  left: 13px;
+  font-size: 48px;
+  animation: at 5s ease;
+  transform: translateX(0px);
+}
+@keyframes at {
+  from {
+    opacity: 0;
+    transform: translateX(-90px);
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(-90px);
+  }
+}
+.anview-logo span:nth-child(4) {
+  left: 54px;
+  font-size:60px;
+  animation: n 5s ease;
+  transform: translateX(0px);
+}
+@keyframes n {
+  from {
+    opacity: 0;
+    transform: translateX(-70px);
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(-70px);
+  }
+}
+.anview-logo span:nth-child(5) {
+  left: 30px;
+  opacity: 0;
+  animation: ice 5s ease;
+}
+@keyframes ice {
+  from {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+}
+.anview-logo span:nth-child(6) {
+  left: 102px;
+  animation: view 5s ease;
+  transform: translateX(0px);
+}
+@keyframes view {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(60px);
+  }
+}
+a:hover {
+  cursor: pointer;
+}
+
+.sound:hover embed, .sound:active embed, .sound:focus embed {
+  display: block !important;
+  height: 0;
+  width: 0;
+}

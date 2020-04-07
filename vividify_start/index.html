@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>Vividify_start</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<audio src="media/welcome.mp3" autoplay ></audio>
+		<audio src="media/back.mp3" autoplay></audio>
+		<div class="anview-logo">
+			<div id=o>
+				<span></span><!--do not remove this nth child dependant-->
+				<span>PESU END-SEM PROJECT</span>
+				<span>VIVIDIFY</span>
+			</div>
+			<div id="choice">
+				<a href="../vividify_dsx/index.html">
+					<div id="left" onmouseover="document.getElementById('ds').play()">
+						<img src="img/p.png">Ds<h2>DataStructures</h2>
+					</div>
+				</a>
+				<a href="../vividify_welcomepage/index.html">
+					<div id="right"onmouseover="document.getElementById('wt').play()">Wt
+						<img id="imgr"src="img/wt.png">
+						<h1>WebTech</h1>
+					</div>
+				</a>
+			</div>
+			<audio id="ds" src="media/ds.mp3"></audio>
+			<audio id="wt" src="media/wt.mp3"></audio>
+		</div>
+	</body>
+</html>

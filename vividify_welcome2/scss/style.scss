@@ -1,0 +1,967 @@
+@import "bourbon";
+
+@import url(http://fonts.googleapis.com/css?family=Martel+Sans:200,300,400,800,900);
+@import url(http://c-araujo.com/assets/fonts/starJedi/SE/style.css);
+
+$image1: 'http://c-araujo.com/uZlR2bB.jpg';
+$image2: 'http://c-araujo.com/OfpVvOs.jpg';
+$image3: 'http://c-araujo.com/QYS0sMB.jpg';
+$image4: 'http://c-araujo.com/qXJds9L.jpg';
+$image5: 'http://c-araujo.com/0CRoXDg.jpg';
+$image6: 'http://c-araujo.com/TC4rvkU.jpg';
+$image7: 'http://c-araujo.com/KBhOYIr.jpg';
+$image8: 'http://c-araujo.com/cNmoLmL.jpg';
+$image9: 'http://c-araujo.com/onQyeOq.jpg';
+$image10: 'http://c-araujo.com/JXtviCi.jpg';
+
+*,
+*:before,
+*:after {
+	
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; 
+}
+@mixin abstlycenter($w,$h){
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -($w*0.5);
+	margin-top: -($h*0.5);
+}
+
+@mixin a($width, $height: 55px){
+	width: $width;
+	height: $height;
+	line-height: $height;
+	@include abstlycenter($width, $height);
+}
+
+@mixin clip($string){
+	-webkit-clip-path: $string;
+	clip-path: $string;
+}
+@mixin grab{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+// keyframes mixin
+@mixin keyframe($name) {
+	@-webkit-keyframes #{$name} {
+		@content; 
+	}
+	@-moz-keyframes #{$name} {
+		@content;
+	}
+	@-ms-keyframes #{$name} {
+		@content;
+	}
+	@keyframes #{$name} {
+		@content;
+	} 
+}
+
+
+body{
+	font: {
+		family: 'Martel Sans', sans-serif;
+	}
+	  background-image: url("../img/background.jpg");
+}
+.opac{
+  width:100%;
+  height:100%;
+}
+$elipsea:19px;
+section{
+	height: 100px;
+	width: 54%;
+	background : {
+		repeat: no-repeat;
+		size: cover;
+		position: center center;
+	}
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto 0px;
+	a{
+		text: {
+			transform: uppercase;
+			align: center;
+			decoration: none;
+		}
+		font: {
+			size: 2.875em;
+			weight: 900;
+		}
+		color: #FF7F50;
+		&:after, &:before{
+			content: '';
+		}
+  }
+  a:hover{
+    color:#fff;
+  }
+	&.head{
+    height:150px;
+		position: relative;
+		z-index: 10;
+    top:20px;
+		a{
+			$w: 452px;
+			$h: 178px;
+			@include a($w, $h);
+			font-weight: 700;
+			color: #fff;
+			@include transition(all 2s cubic-bezier(.21,1,.84,1.01) );
+			&:before, &:after{
+				color: #000;
+				font-weight: 900;
+				font-size: 30px;
+				text-transform: none;
+				display: block;
+				@include transition(inherit);
+			}
+			&:before{
+				content: attr(data-bf);
+				position: absolute;
+				top: -45px;
+				left: -5px;
+				
+			}
+			&:after{
+				content: attr(data-af);
+				position: absolute;
+				right: 0;
+				bottom: -30px;
+			}
+			&:hover{
+				@include transform( scale(1.05) );
+				&:before{@include transform( scale(1.2)  translate(-25px, -15px) );}
+				&:after{@include transform( scale(1.2)  translate(25px, 15px) );}
+			}
+		}
+	}
+	&.p10{
+    text-shadow: 0 0 3px #FF0000;
+		background-image: url($image1);
+    a{
+			@include a(353px, 44px);
+			&:before, &:after{
+				content: '';
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				border-color: #FF0000;
+				border-style: solid;
+				border-width: 0;
+				@include transition(all .5s cubic-bezier(1,.2,.26,.7));
+				@include transform(translate(0px, 0px) scale(.8));
+				opacity: 0;
+			}
+			&:before{
+				left: 0;
+				bottom: 0;
+				border-bottom-width: 1px;
+				border-left-width: 1px;
+			}
+			&:after{
+				top: 0;
+				right: 0;
+				border-top-width: 1px;
+				border-right-width: 1px;
+			}
+			&:hover{
+				&:before, &:after{
+					@include transition(all 1s cubic-bezier(.14,1.13,0,.91));
+					opacity: 1;
+				}
+				&:before{
+					@include transform(translate(-30px, 20px) scale(1));
+					border-bottom-width: 12px;
+					border-left-width: 12px;
+				}
+				&:after{
+					@include transform(translate(30px, -20px) scale(1));
+					border-top-width: 12px;
+					border-right-width: 12px;
+				}
+			}
+		}
+	}
+	&.p11{
+		background-image: url($image2);
+
+		a{
+			$w: 214px;
+			$h: 78px;
+			@include a($w,$h);
+			&:before, &:after{
+				content: '';
+				position: absolute;
+				height: 7px;
+				left: 0;
+				right: 0;
+				@include transform(translate(0, 30px));
+				@include transition(.3s all);
+				opacity: 0;
+			}
+			&:before{
+				bottom: -6px;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUoAAAAHBAMAAACcthkwAAAAD1BMVEUAAAD/vwD/vwD/vwD/vwBYa2Z+AAAABHRSTlMAwEAw9JyPcwAAAC1JREFUOMtjcMEETgwQwIJFTgEiRWdto64cdeWoK8l2pSAmEIZKMWKRMxgQbQCWVcU78Wj7hwAAAABJRU5ErkJggg==);
+				@include animation(road .9s infinite linear);
+
+			}
+			&:after{
+				bottom: 8px;
+				background-color: #FFBF00;
+			}
+
+			&:hover{
+				&:before, &:after{
+					@include transform(translate(0, 0px));
+					opacity: 1;
+				}
+			}
+
+		}
+	}
+	&.p12{
+		background-image: url($image3);
+		a{
+			padding-top: 50px;
+			font-weight: 200;
+			$w: 440px;
+			$h: 200px;
+			@include a($w,$h);
+			margin-top: -150px;
+			&:before{
+				content: attr(data-content);
+				color: #465154;
+				transition:all .5s ease-in;
+				@include grab;
+				background-color: #fff;
+				padding-top: 50px;
+				@include clip(
+					polygon(
+						0% 100%,
+						159px 188px,
+						171px 185px,
+						174px 185px,
+						184px 182px,
+						191px 183px,
+						199px 179px,
+						202px 176px,
+						219px 158px,  
+						225px 175px, 
+						230px 172px,
+						245px 179px,
+						283px 184px,
+						293px 187px, 
+						311px 192px, 
+						318px 191px, 
+						357px 194px, 
+						100% 100%
+						)
+					);
+				@include animation(montanhaDaTristeza .5s forwards linear);
+				
+			}
+			&:hover{
+				&:before{
+					@include animation(montanhaDaAlegria .9s forwards linear);
+				}
+			}
+		}
+	}
+	&.p14{
+		background-image: url($image5);
+		a{
+			$w: 322px;
+			$h: 94px;
+			@include a($w, $h);
+			z-index: 10;
+			&:before, &:after{
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				position: absolute;
+				display: block;
+				top: -35%;
+				right: -10%;
+				@include transition(all 1s cubic-bezier(.45,.76,.58,.94));
+			}
+			&:before{
+				background-color: #011925;
+				z-index: -1;
+			}
+			&:after{
+				background-color: #fff;
+				z-index: -2;
+				@include transform(scale(.90));
+			}
+			&:hover{
+				&:after{
+					@include transform(scale(1) translate(10px));
+				}
+			}
+		}
+	}
+	&.p15{
+		background-image: url($image6);
+		a{
+			$w : 274px;
+			$h: 58px;
+			@include a($w,$h);
+			line-height: 1;
+			.in, .t1:before, .t1:after, .t2:before, .t2:after{
+				content: '';
+				width: 0px;
+				height: 19px;
+				background-color: #fff;
+				position: absolute;
+				@include transition-property(all);
+				@include transition-duration(.3s);
+				@include transition-timing-function(cubic-bezier(.17,.67,.46,1.45));
+			}
+			.t1{
+				height: 60px;
+				width: 48px;
+				top: 0%;
+				left: -48px;
+				position: absolute;
+				*, &:before, &:after{
+					@include clip(
+						polygon(0 0, 100% 0, 100% 100%, 25% 100%)
+						);
+				}
+				&:before{
+					right: 0;
+				}
+				.in{
+					right: 0;
+					top: 22px;
+				}
+				&:after{
+					right: 0;
+					top: 45px;
+				}
+			}
+			.t2{
+				height: 60px;
+				width: 48px;
+				top: 0%;
+				right: -48px;
+				position: absolute;
+				*, &:before, &:after{
+					@include clip(
+						polygon(0 0, 100% 0, 75% 100%, 0% 100%)
+						);
+				}
+				&:before{
+					left: 0;
+				}
+				.in{
+					left: 0;
+					top: 22px;
+				}
+				&:after{
+					left: 0;
+					top: 45px;
+				}
+			}
+			.t1:before, .t2:before{
+				@include transition-delay(0.0s);
+			}
+			.t1 .in, .t2 .in{
+				@include transition-delay(0.1s);
+			}
+			.t1:after, .t2:after{
+				@include transition-delay(0.2s);
+			}
+			&:hover{
+				.in, .t1:before, .t1:after, .t2:before, .t2:after{
+					width: 48px;
+				}
+				
+				.t1:before,.t2:before{
+					@include transition-delay(0.2s);
+				}
+				.t1 .in, .t2 .in{
+					@include transition-delay(0.1s);
+				}
+				.t1:after, .t2:after{
+					@include transition-delay(0s);
+				}
+				
+
+			}
+		}
+	}
+	&.p16{
+		background-image: url($image7);
+		a{
+			$w: 632px;
+			$h: 124px;
+			@include a($w, $h);
+			z-index:10;
+			overflow: hidden;
+			&:before, &:after{
+				position: absolute;
+				left: 0;
+				display: block;
+				height: 150px;
+				background-size: contain;
+				opacity: 1;
+				@include transition( all .4s cubic-bezier(.17,.67,.64,1.55));
+				opacity: 0;
+				top: 50px;
+			}
+			&:before{
+				background-image: url(http://c-araujo.com/ko4m3Fj.png);
+				width: 1772px;
+				z-index: -1;
+				@include animation(chicaum 60s infinite linear);
+				
+			}
+			&:after{
+				background-image: url(http://c-araujo.com/5asE7dv.png);
+				width: 1682px;
+				z-index: 1;
+				@include animation(chicadois 30s infinite linear);
+			}
+			&:hover{
+				&:before, &:after{
+					opacity: 1;
+					top: 0;
+				}
+				&:before{
+					transition-delay: .2s;
+				}
+			}
+		}
+	}
+	&.p17{
+		background-image: url($image8);
+		a{
+			$w: 546px;
+			$h: 94px;
+			@include a($w, $h);
+			&:before{
+				content: '';
+				position: absolute;
+				width: 334px;
+				height: 326px;
+				@include abstlycenter(334px, 326px);
+				background-size: contain;
+				opacity: 0;
+				@include animation(rodarodajequiti 50s infinite linear);
+				@include transition(all 1s cubic-bezier(.17,.67,.48,1.32) );
+			}
+			&:hover:before{
+				opacity: 1;
+				
+			}
+		}
+	}
+	&.p18{
+		background-image: url($image9);
+		a{
+			$w: 491px;
+			$h: 94px;
+			text-align: left;
+			@include a($w, $h);
+			font-size: 3.87500em;
+			&:before, &:after{
+				content: '';
+				position: absolute;
+				background-color: rgba(255, 255, 255, .8);
+				width: 46px;
+				height: 65px;
+				left: -46px;
+				top: -12%;
+			}
+			&:before{
+				@include clip(polygon(0 35%, 100% 43%, 100% 100%));		
+			}
+			&:after{
+				@include clip(polygon(13% 0, 100% 43%, 100% 100%));		
+			}
+			&:hover{
+				&:before{
+					@include animation(voavoa .1s infinite linear);
+				}
+				&:after{
+					@include animation(voavoa2 .1s infinite linear);
+				}
+			}
+		}
+	}
+	&.p19{
+		background-image: url($image10);
+		font-family: 'starjedi_special_edition';
+
+		a{
+			$w: 330px;
+			$h: 55px;
+			@include a($w, $h);
+			font-weight: lighter;
+			&:before, &:after{
+				content: '';
+				position: absolute;
+				width: 13%;
+				height: 13px;
+				background-color: #000;
+				@include transition(all .3s cubic-bezier(.17,.67,.46,.97) );
+				opacity: 0;
+			}
+			&:before{
+				top: -20px;
+				right: 0;
+			}
+			&:after{
+				bottom: -35px;
+				left: 0;
+			}
+			.s1{
+				position: absolute;
+				background-color: #26C9FF;
+				width: 0;
+				height: 13px;
+				top: -20px;
+				box-shadow: 0px 0px 0px #26C9FF;
+				right: 13%;
+				border-radius: 20px 10px 10px 20px;
+				@include transition(all .3s cubic-bezier(.17,.67,.46,.97) );
+				&:before{
+					content: '';
+					position: absolute;
+					left: 0;
+					top: -1%;
+					right: 0;
+					bottom: -15%;
+					box-shadow: 0px 0px 0px #26C9FF;
+					border-radius: 20px 10px 10px 20px;
+				}
+				&:after{
+					content: '';
+					position: absolute;
+					right: 0;
+					left: 0%;
+					top: 0;
+					bottom: 0;
+					background-color: #FFFFFF;
+					-webkit-filter: blur(3px);
+					filter: blur(1px);
+					box-shadow: inset 0px 0px 10px #26C9FF;
+					border-radius: 20px 10px 10px 20px;
+				}
+
+			}
+			.s2{
+				position: absolute;
+				background-color: #FF0000;
+				width: 0;
+				height: 13px;
+				bottom: -35px;
+				box-shadow: 0px 0px 0px #FF0000;
+				left: 13%;
+				border-radius: 10px 20px 20px 10px;
+				z-index: 1000;
+				@include transition(all .3s cubic-bezier(.17,.67,.46,.97));
+				&:before{
+					content: '';
+					position: absolute;
+					left: 0;
+					top: -1%;
+					right: 0;
+					bottom: -15%;
+					box-shadow: 0px 0px 0px #FF0000;
+					border-radius: 10px 20px 20px 10px;
+				}
+				&:after{
+					content: '';
+					position: absolute;
+					right: 0;
+					left: 0%;
+					top: 0;
+					bottom: 0;
+					background-color: #FFFFFF;
+					-webkit-filter: blur(3px);
+					filter: blur(1px);
+					box-shadow: inset 0px 0px 10px #FF0000;
+					border-radius: 10px 20px 20px 10px;
+				}
+
+
+			}
+			&:hover{
+				&:before{
+					
+					opacity: 1;
+				}
+				&:after{
+					
+					opacity: 1;
+				}
+				.s1{
+					width: 87%;
+					box-shadow: 0px 0px 30px #26C9FF;
+					top: -20px;
+					&:before{
+						box-shadow: 0px 0px 70px #26C9FF;
+					}
+				}
+				.s2{
+					width: 87%;
+					box-shadow: 0px 0px 30px #FF0000;
+					bottom: -35px;
+					&:before{
+						box-shadow: 0px 0px 70px #FF0000;
+					}
+				}
+			}
+		}
+	}
+}
+
+@include keyframes(voavoa){
+	from{
+		@include clip(polygon(0 35%, 100% 43%, 100% 100%));	
+	}
+	to{
+		@include clip(polygon(13% 0, 100% 43%, 100% 100%));	
+	}
+}
+@include keyframes(voavoa2){
+	from{
+		@include clip(polygon(13% 0, 100% 43%, 100% 100%));
+
+	}
+	to{
+		@include clip(polygon(0 45%, 100% 43%, 100% 100%));
+	}
+}
+@include keyframes(rodarodajequiti){
+	from{
+		@include transform( rotate(0) );
+	}
+	to{
+		@include transform( rotate(360deg) );
+	}
+}
+@include keyframes(chicaum){
+	from{
+		@include transform( translate(0px) );
+	}
+	to{
+		@include transform( translate(-886px) );
+	}
+}
+@include keyframes(chicadois){
+	from{
+		@include transform( translate(0px) );
+	}
+	to{
+		@include transform( translate(-841px) );
+	}
+}
+@include keyframes(montanhaDaAlegria){
+	0%{
+		@include clip(
+			polygon(
+				0% 100%,
+				159px 188px,
+				171px 185px,
+				174px 185px,
+				184px 182px,
+				191px 183px,
+				199px 179px,
+				202px 176px,
+				219px 158px,  
+				225px 175px, 
+				230px 172px,
+				245px 179px,
+				283px 184px,
+				293px 187px, 
+				311px 192px, 
+				318px 191px, 
+				357px 194px, 
+				100% 100%
+				)
+			);
+	}
+	25%{
+		@include clip(
+			polygon(
+				0% 100%,
+				153px 176px,
+				165px 174px,
+				167px 173px,
+				187px 155px,
+				193px 161px,
+				200px 147px,
+				203px 149px,
+				220px 129px,  
+				226px 143px, 
+				231px 140px,
+				240px 154px,
+				246px 147px,
+				285px 171px, 
+				295px 174px, 
+				313px 178px, 
+				329px 182px, 
+				100% 100%
+				)
+			);
+	}
+	50%{
+		@include clip(
+			polygon(
+				0% 100%,
+				106px 149px,
+				145px 128px,
+				158px 119px,
+				178px 101px,
+				184px 107px,
+				190px 92px,
+				201px 87px,
+				217px 66px,
+				223px 81px,
+				228px 78px,
+				244px 94px,
+				251px 87px,
+				289px 113px,
+				302px 125px,
+				316px 140px,
+				346px 163px,
+				100% 100%
+				)
+			);
+	}
+	75%{
+		@include clip(
+			polygon(
+				0% 100%,
+				82px 132px,
+				117px 97px,
+				131px 93px,
+				172px 65px,
+				179px 76px,
+				185px 77px,
+				199px 68px,
+				217px 44px,
+				223px 58px,
+				228px 55px,
+				244px 60px,
+				253px 42px,
+				295px 79px,
+				314px 87px,
+				331px 88px,
+				376px 145px,
+				100% 100%
+				)
+			);
+	}
+	100%{
+		@include clip(
+			polygon(
+				0% 100%,
+				49px 99px,
+				100px 53px,
+				113px 68px,
+				147px 29px,
+				153px 40px,
+				160px 42px, 
+				187px 63px, 
+				209px 11px, 
+				215px 25px, 
+				219px 21px, 
+				244px 61px, 
+				264px 0px, 
+				311px 60px, 
+				330px 79px, 
+				349px 65px,  
+				398px 107px, 
+				100% 100%
+				)
+
+			);
+	}
+}
+@include keyframes(montanhaDaTristeza){
+	100%{
+		@include clip(
+			polygon(
+				0% 100%,
+				159px 188px,
+				171px 185px,
+				174px 185px,
+				184px 182px,
+				191px 183px,
+				199px 179px,
+				202px 176px,
+				219px 158px,  
+				225px 175px, 
+				230px 172px,
+				245px 179px,
+				283px 184px,
+				293px 187px, 
+				311px 192px, 
+				318px 191px, 
+				357px 194px, 
+				100% 100%
+				)
+			);
+	}
+	75%{
+		@include clip(
+			polygon(
+				0% 100%,
+				153px 176px,
+				165px 174px,
+				167px 173px,
+				187px 155px,
+				193px 161px,
+				200px 147px,
+				203px 149px,
+				220px 129px,  
+				226px 143px, 
+				231px 140px,
+				240px 154px,
+				246px 147px,
+				285px 171px, 
+				295px 174px, 
+				313px 178px, 
+				329px 182px, 
+				100% 100%
+				)
+			);
+	}
+	50%{
+		@include clip(
+			polygon(
+				0% 100%,
+				106px 149px,
+				145px 128px,
+				158px 119px,
+				178px 101px,
+				184px 107px,
+				190px 92px,
+				201px 87px,
+				217px 66px,
+				223px 81px,
+				228px 78px,
+				244px 94px,
+				251px 87px,
+				289px 113px,
+				302px 125px,
+				316px 140px,
+				346px 163px,
+				100% 100%
+				)
+			);
+	}
+	25%{
+		@include clip(
+			polygon(
+				0% 100%,
+				82px 132px,
+				117px 97px,
+				131px 93px,
+				172px 65px,
+				179px 76px,
+				185px 77px,
+				199px 68px,
+				217px 44px,
+				223px 58px,
+				228px 55px,
+				244px 60px,
+				253px 42px,
+				295px 79px,
+				314px 87px,
+				331px 88px,
+				376px 145px,
+				100% 100%
+				)
+			);
+	}
+	0%{
+		@include clip(
+			polygon(
+				0% 100%,
+				49px 99px,
+				100px 53px,
+				113px 68px,
+				147px 29px,
+				153px 40px,
+				160px 42px, 
+				187px 63px, 
+				209px 11px, 
+				215px 25px, 
+				219px 21px, 
+				244px 61px, 
+				264px 0px, 
+				311px 60px, 
+				330px 79px, 
+				349px 65px,  
+				398px 107px, 
+				100% 100%
+				)
+
+			);
+	}
+}
+@include keyframes(sobeSol){
+	0%{
+		width: 0px;
+		height: 0px;
+		@include abstlycenter(10px, 10px);
+		top: 300%;
+		opacity: 0;
+		@include filter( blur(30px) );
+	}
+	15%{
+		width: 120px;
+		height: 120px;
+		@include abstlycenter(120px, 120px);
+		top: 240%;
+		opacity: 1;
+		@include filter( blur(20px) );
+	}
+
+	100%{
+		width: 100px;
+		height: 100px;
+		@include abstlycenter(100px, 100px);
+		top: -300%;
+		opacity: 1;
+		@include filter( blur(20px) );
+	}
+}
+@include keyframes(road){
+	from{
+		background-position: 0;
+	}
+	to{
+		background-position: -330px;
+	}
+}
+
+
+
+/**/
+embed {
+  display: none;
+}
+
+.sound {
+  &:hover embed, &:active embed, &:focus embed {
+    display: block !important;
+    height: 0;
+    width: 0;
+  }
+}

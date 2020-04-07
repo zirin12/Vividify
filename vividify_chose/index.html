@@ -1,0 +1,42 @@
+<?php	
+	session_start();
+?>
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="UTF-8">
+		<title>vividify_chose</title>
+		<script>
+			function play1()
+			{
+				var audio = document.getElementById("log");
+				audio.play();
+			}
+		</script>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<audio src="media/log.mp3" id="log"></audio>
+		<html lang="en-Us">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'>
+	</head>
+	<body>
+		<audio src="media/anna.mp3" autoplay ></audio>  
+		<div id="login">
+			<h1><strong>Welcome.</strong>Please choose a wiser name.!</h1>
+				<form action="../vividify_oneplayerconsole/getPlayerInfo.php"  method="post">
+					<fieldset>
+						<p><input name="user" type="text" autocomplete="off" placeholder="USER NAME"  onFocus="if(this.value=='Username')this.value='' "></p>
+						<p><input  name="user_conformation" type="password" autocomplete="off" placeholder="SECRET KEY" onFocus="if(this.value=='choose a user name')this.value='' "></p>
+						<p><a href="../vividify_oneplayerconsole/index.html"><input type="submit"value="Login" onmouseover="play1();"/></a></p>
+					</fieldset>
+				</form>
+		</div>
+		<h2>palindrome </h2>
+	</body>
+	</html>
+	</body>
+</html>

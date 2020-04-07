@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>vividify_ds</title>
+    <link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin Slab">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo">
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Audimat">
+    <style>
+</style>
+<script src="main2.js">//everything from before is there inside this all that is there here are wrappers</script>
+<script src="main.js"></script>
+<script src="logic.js"></script>
+<script src="http://static.smallpicture.com/bootstrap/js/jquery-1.9.1.min.js"></script><!--this is needed for using jquery-->
+<script>
+	function startDictation2()//intermdiate voice input
+	{
+		if (window.hasOwnProperty('webkitSpeechRecognition'))
+		{
+			var recognition = new webkitSpeechRecognition();
+			recognition.continuous = false;
+			recognition.interimResults = false;
+			recognition.lang = "en-US";
+			recognition.start();
+			recognition.onresult = function(e)
+			{
+				document.getElementById('inter').value = e.results[0][0].transcript;
+				recognition.stop();
+			};
+			recognition.onerror = function(e)
+			{
+				recognition.stop();
+			}
+		}
+	}
+	//the Api code
+	//the optimisation is there in transformWord function
+	var baseUrl =  "http://api.wordnik.com:80/v4/word.json/";
+	var apiKey = "fa630a5477e38933bad6f0c689503ceb53bda008a57c337a1";//My api key
+	function getDefinitions (theWord, callback)//Returns the dictionany meaning of the Word thorugh call back API
+	{
+		var url = baseUrl + theWord + "/definitions?limit=3&includeRelated=false&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=" + apiKey;
+		var jxhr = $.ajax 
+		({ 	
+			url: url,
+			dataType: "text" , 
+			timeout: 30000 
+		}) 
+		.success (function (data, status)
+		{ 
+			var array = JSON.parse (data);
+			callback (theWord, array [0].text)
+		}) 
+		.error (function (status)
+		{ 
+			//throws the error message saying the word lacks the definition in dictionary
+			console.log ("getDefinitions: url == " + url + ", error == " + JSON.stringify (status,undefined,4));
+		});
+	}		
+	function transformWord(word_graph,start,goal)//finds the first occurcance of the shortest possible path 
+	{
+		
+		var paths=[[start]];
+		var extended=new Set();
+		while(paths.length!=0)
+		{
+			var currentPath=paths.shift();
+			var currentWord=currentPath[currentPath.length-1];
+			if(currentWord==goal)
+			{
+				return(currentPath);
+			}
+			else
+			{
+				if(extended.has(currentWord)==true)
+				{
+					continue;
+				}
+			}
+			extended.add(currentWord);
+			var transforms=word_graph[currentWord];
+			for(word in transforms)
+			{
+				if (transforms[word]==goal)
+				{// this is the optimization,if the next word in transforms itself is goal , just return the current path instead of adding all the words of transforms to the paths and popping each path one by one to check for goal.
+					var c = currentPath.slice(0,currentPath.length).concat([transforms[word]]);
+					return c;
+				}
+				if(currentPath.indexOf(transforms[word])==-1)
+				{
+					paths.push(currentPath.slice(0,currentPath.length).concat([transforms[word]]));
+				}
+			}
+		}
+		var empty=[];
+		return(empty);
+	}
+	var dict = {};       
+	function putMeaningInDict(theWord, meaning)//to store the word and meaning together
+	{
+		dict[theWord] = meaning;
+	}
+	function populatedict()
+	{
+		var optpath = transformWord(word_graph,document.getElementById("src").value,document.getElementById("des").value); 
+		var optPathLen = optpath.length;
+		for(var i=0;i<optPathLen;i++)
+		{
+			var word = optpath[i];
+			getDefinitions (word, putMeaningInDict);
+		}
+		setTimeout(1800000);
+	}
+	function printd()//printing the table of the word and meaning.
+	{
+		var path = transformWord(word_graph,document.getElementById("src").value,document.getElementById("des").value);var meaning_table=document.getElementById("optimal_path");
+        for(var i=0;i<path.length;i++)
+		{
+			var x = path[i];
+			var y = dict[x];
+			var row=meaning_table.insertRow();
+            var word_cell=row.insertCell(0);
+            var meaning_cell=row.insertCell(1);
+            word_cell.innerHTML=x;
+            meaning_cell.innerHTML=y;
+		}
+	}
+	var count=1;
+	var penalty=0; 
+	function nextClue(word_graph,currword,goal)//give the clue of the next word in the path
+	{
+		if(count<=3)
+		{
+			penalty+=10;
+			var nextpath=transformWord(word_graph,currword,goal);
+			getDefinitions (nextpath[1], function (text,defs) 
+			{
+				var def = defs;
+				var d = document.getElementById("DefinitionList");
+                d.innerHTML = def;
+			});
+			count++;
+			return nextpath[1];
+		}
+		else
+		{
+			document.getElementById("nextclue").style.visibility="hidden"; 
+		}
+	}
+	function editdistance(word_graph,currword,goal)//return the edit distance of the shortest path between source and destination
+	{
+		var nextpath=transformWord(word_graph,currword,goal);
+		if(nextpath.length==0)
+		{
+			return 1000;
+		}
+		else
+		{
+			return(nextpath.length-1);
+		}
+	}
+	function showeditdistance()////status update
+	{
+		var distance= editdistance(word_graph,document.getElementById("inter").value,document.getElementById("des").value);
+		if(distance==1)
+		{
+			document.getElementById("editdistance").innerHTML="!!!CONGRATULATIONS!!!";
+			clearInterval(ticker);
+			setTimeout('calculatepoints()',1000);setTimeout('showOptpath()',1000);
+			setTimeout('showptb()',1000);
+		}
+		else
+		{
+			if(distance==1000)
+			{
+				document.getElementById("editdistance").innerHTML="GO BACK and try another word";
+			}
+			else
+			{
+				document.getElementById("editdistance").innerHTML="You are "+(distance-1)+" away!";
+			}
+		}
+	}
+	var points=0;
+	var bonus=0;
+	function calculatepoints()//points are calculated for the path u choose
+	{
+		var origpath=transformWord(word_graph,document.getElementById("src").value,document.getElementById("des").value);
+		if(document.getElementById("countdown").innerHTML>90&& editdistance(word_graph,document.getElementById("inter").value,document.getElementById("des").value)==-1)
+		{
+			bonus+=60;
+		}
+		if(checkIfEqual(origpath,word_list)&& origpath.length!=0 && word_list.length!=0)
+		{
+			points+=100;
+			bonus+=20;
+		}
+		else
+		{
+			if((origpath.length==word_list.length)&&(editdistance(word_graph,word_list[word_list.length-2],word_list[word_list.length-1])==1))
+			{
+				points+=100;
+				bonus+=50;
+			}
+			else
+			{
+				if((word_list.length>origpath.length)&&(editdistance(word_graph,word_list[word_list.length-2],word_list[word_list.length-1])==1))
+				{
+					points+=100;
+				}
+				else
+				{
+					points=0;
+				}
+			}
+		}
+		document.getElementById("points").innerHTML="Points:"+points;
+		document.getElementById("penalty").innerHTML="Penalty:"+penalty;
+		document.getElementById("bonus").innerHTML="Bonus:"+bonus;
+		document.getElementById("total").innerHTML="Total Points:"+(points+bonus-penalty);
+		if(document.getElementById("countdown").innerHTML==0)
+        {
+			document.getElementById("nextclue").style.visibility="hidden";
+        }
+	}
+	function insert()//for showing the words on the screen
+	{
+		var sourceli=document.getElementById("1");
+		var destinationli=document.getElementById("2");
+		var source=document.getElementById("src");
+		var destination=document.getElementById("des");
+		sourceli.innerHTML=source.value;
+		destinationli.innerHTML=destination.value;
+		var intervalue=document.getElementById("inter").value;
+		var item=document.createElement("li");
+		item.innerHTML=intervalue;
+		var word_list=document.getElementById("insert");
+		word_list.appendChild(item);
+	}
+	function showButton()
+	{
+		document.getElementById("nextclue").style.visibility="visible";
+	}
+	function showOptpath()
+	{
+		document.getElementById("opt").style.visibility="visible";
+	}
+	var timeInSecs;
+	var ticker;
+	function startTimer(secs)
+	{
+		timeInSecs = parseInt(secs)-1;
+		ticker = setInterval("tick()",1000);
+	}
+	function tick() 
+	{
+		var secs = timeInSecs;
+		if (secs>0)
+		{
+			timeInSecs--;
+		}
+		else
+		{
+			clearInterval(ticker);
+		}
+		document.getElementById("countdown").innerHTML = secs;
+	}
+	function start_game()
+	{
+		arr();
+		startTimer(180);
+		showDifficulty();
+		populatedict();
+		setTimeout('calculatepoints()',1800000);
+		setTimeout('showButton()',90000); 
+		setTimeout('showOptpath()',1800000);
+		setTimeout('showptb()',1800000);
+		
+	}
+	function give_up()
+	{
+		clearInterval(ticker);
+		document.getElementById('countdown').innerHTML=0;//basically resetting time 
+		showOptpath();
+	}
+	function next_clue()
+	{
+		nextClue(word_graph,word_list[word_list.length-2],document.getElementById('des').value);
+	}
+	function inter_()
+	{
+		if(check_if_present()==-1)
+		{
+			return;
+		}
+		else
+		{
+			insert();
+			showeditdistance();
+		}
+	}
+	function show_meanings_in_a_table()
+	{
+		printd();
+	}
+	function showptb()
+	{
+		document.getElementById("ptb").style.visibility='visible';
+	}
+	function play()
+	{
+		var b = document.getElementById("timer");
+		b.play();
+	}
+    </script>
+	</head>
+	<body>
+		<div id="for">
+			<p id="chumma">
+				<span id="anim"></span><span id="shuffle"></span>
+				</br>
+			</p>
+		</div>
+		<div id="everything">
+			<audio id="timer" src="media/timer.mp3"></audio>
+			<audio id="audio" src="media/j.mp3" autoplay></audio>
+			<audio id="j2" src="media/j2.mp3"></audio>
+			<div id="difficulty" >Difficulty Rating</div><br>
+			<div id="rate">🌕 🌕 🌕 🌕 🌕 </div>
+			<div id="countdown" ><span id="spacex">180</span></div>
+			<div id="f">
+				<input type="text" placeholder="Source Word" id="src" >
+				<input type="text" placeholder="intermediate word" id="inter" ondblclick="startDictation2();" onkeypress="if(event.keyCode==13){ this.value=this.value.toLowerCase();inter_();this.value='';}">
+				<input type="text" placeholder="Destination Word" id="des" >
+			</div>
+			<div id="mid">
+				<input type="button"  onclick="startDictation()" value="Speak">
+				<input type="button"  onclick="li();play2();feed();" value="Confirm">
+				<input type="button" value="Start Game" onclick="start_game();play();">
+				<input type="button" value="GiveUp" onclick="give_up();">
+				<br>
+				<input type="button" id="nextclue" value="Clue" style="visibility:hidden"  onclick="next_clue();">
+				<input type="button" id="opt" value="optimalpath" onclick="show_meanings_in_a_table()" style="visibility:hidden">
+				<a class="button" href="#popup1" onclick="labels();">
+					<input type="button" id="ptb" value="Points" onclick="" style="visibility:hidden">
+				</a>
+				<div id="popup1" class="overlay">
+					<div class="popup">
+						<h3>Points</h3>
+							<a class="close" href="#">&times;</a>
+							<div class="content2" id="content2">
+								<div id="points" ><p>points : not yet scored<p></div>
+								<div id="penalty"><p>penalty : not yet scored<p></div>
+								<div id="bonus" ><p>bonus : not yet scored<p></div>
+								<div id="total" ><p>total : not yet scored<p></div>
+							</div>
+					</div>
+				</div>
+			</div>
+			<div id="man">
+				<div id="editdistance">STATUS BAR</div>
+				<div id="shit">
+					<ul>
+						<li id="1">Source Word</li>
+						<ol id="insert"></ol>
+						<li id="2">Destination</li>
+					</ul>
+				</div>
+			</div>
+			<div id="text">
+				<div id="DefinitionList" >this is the definition list</div>
+				<table id="optimal_path" width="5px">optimal meanings come here!!</table>
+				<script src="js/cor.js"></script>
+				<script src="js/index.js"></script>
+			</div>
+				<form id="labnol" method="get" action="https://www.google.com/search">
+					<div class="speech">
+						<input type="text" name="q" id="transcript" placeholder="Speak" hidden="hidden" />
+					</div>
+				</form>
+		</div>
+	</body>
+</html>
